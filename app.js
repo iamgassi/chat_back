@@ -1,6 +1,8 @@
 const express=require('express')
 const app =express();
 const userModel =require('./database/models/user')
+const chatIdModel=require('./database/models/chatId')
+const messageModel=require('./database/models/messages')
 const corsModule=require('cors')
 const db=require('./database/index')
 const server=require('http').createServer(app)
@@ -78,6 +80,67 @@ app.route('/user').get((req,res)=>{
 							username:username,
 							// password:hash,
 							password:password
+
+						}
+					)
+					.then(()=>
+					{  
+						 res.json({ msg:"Successfully registered"});
+					})
+					.catch((err)=>
+					{
+						console.log(err)
+						res.json({ msg:"User Already Exist!!"})
+					})
+		// })
+	}
+	else
+	{
+    res.json({ msg:"Enter a valid detail || Password mismatch"})
+	}
+})
+
+//getting chatid
+app.route('/userToUser').get((req,res)=>{
+    chatIdModel.find( {} )
+		.then(function(data)
+    {
+		res.json(data);
+      
+      if(data === null)
+      {
+		res.end("No data")
+      } 
+      
+    }).catch(function(err)
+    {
+        res.json({msg:err});	
+        console.log(err)
+    })
+
+}).post((req,res)=>{
+	const response=req.body
+	const user1=response.user1;
+	const user2=response.user2;
+
+  messageModel.find({})
+  .then(function(data){
+	res.json(data)
+	if(data === null)
+	{
+	  res.end("No data")
+	} 
+  })
+  .catch(function(err){
+	res.json({msg:err});	
+        console.log(err)
+  })
+  if(user)
+  {
+					chatIdModel.create(
+						{
+							user1:user1,
+							user2:user2
 
 						}
 					)
