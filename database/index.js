@@ -1,7 +1,7 @@
 module.exports.init=function()
 {
   const mongoose = require('mongoose');
-  mongoose.connect('mongodb+srv://root:root12345@cluster0.rib2c.mongodb.net/whatsapp?retryWrites=true&w=majority')
+ // mongoose.connect('abc')
 
 .then(function()            
 {
